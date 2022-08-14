@@ -1,4 +1,4 @@
-import { Pressable, View, StyleSheet } from "react-native";
+import { Pressable, View, StyleSheet, Text } from "react-native";
 import React, { Component } from "react";
 class Square extends Component {
   render() {
@@ -9,7 +9,7 @@ class Square extends Component {
           style={styles.square}
           onPress={this.props.pressed}
         >
-          {this.props.value}
+          <Text>{this.props.value}</Text>
         </Pressable>
       </View>
     );

@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Game from "./Components/Game";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import StartMenu from "./Components/StartMenu";
 
 function App() {
   return (
     <View style={styles.container}>
-      <Game />
+      <StartMenu />
     </View>
   );
 }
