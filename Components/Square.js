@@ -9,7 +9,7 @@ class Square extends Component {
           style={styles.square}
           onPress={this.props.pressed}
         >
-          <Text>{this.props.value}</Text>
+          <Text style={styles.textInSquare}>{this.props.value}</Text>
         </Pressable>
       </View>
     );
@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 50,
     height: 50,
+  },
+  textInSquare: {
     textAlign: "center",
     fontSize: 40,
     fontWeight: "bold",

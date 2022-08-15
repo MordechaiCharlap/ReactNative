@@ -1,13 +1,14 @@
 import { Pressable, View, Text } from "react-native";
-import React, { useState } from "react";
+import React, { Component } from "react";
 import Game from "./Game";
-class StartMenu extends React.Component {
+class StartMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
       chosenOption: null,
     };
   }
+
   StartSinglePlayer() {
     console.log("check");
     this.setState({ chosenOption: 1 });

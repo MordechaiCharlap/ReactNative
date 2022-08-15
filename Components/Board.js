@@ -1,29 +1,64 @@
 import React, { Component } from "react";
 import Square from "./Square";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 class Board extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       turn: "true",
       squares: Array(9).fill(null),
-      boardRows: Array(3).fill(null),
     };
   }
-  checkWin() {}
+  checkWin(squaresClone) {
+    const squares = squaresClone;
+    if (
+      (squares[0] == squares[1] &&
+        squares[0] == squares[2] &&
+        squares[0] != null) ||
+      (squares[3] == squares[4] &&
+        squares[3] == squares[5] &&
+        squares[3] != null) ||
+      (squares[6] == squares[7] &&
+        squares[6] == squares[8] &&
+        squares[6] != null) ||
+      (squares[0] == squares[3] &&
+        squares[0] == squares[6] &&
+        squares[0] != null) ||
+      (squares[1] == squares[4] &&
+        squares[1] == squares[7] &&
+        squares[1] != null) ||
+      (squares[2] == squares[5] &&
+        squares[2] == squares[8] &&
+        squares[2] != null) ||
+      (squares[0] == squares[4] &&
+        squares[0] == squares[8] &&
+        squares[0] != null) ||
+      (squares[2] == squares[4] &&
+        squares[2] == squares[6] &&
+        squares[2] != null)
+    ) {
+      console.log(this.state.turn ? "X wins" : "O wins");
+    }
+
+    console.log("nobody wins");
+  }
   handleClick(i) {
-    if (this.state.squares[i] == null) {
-      console.log("handling click");
-      const squares = this.state.squares.slice();
-      console.log("test");
-      if (this.state.turn) squares[i] = "X";
-      else squares[i] = "O";
-      console.log(squares[i]);
-      this.setState({ squares: squares, turn: !this.state.turn });
-      this.checkWin();
+    if (this.state.squares != null) {
+      if (this.state.squares[i] == null) {
+        const squaresClone = this.state.squares.slice();
+        if (this.state.turn) squaresClone[i] = "X";
+        else squaresClone[i] = "O";
+        this.setState(
+          {
+            squares: squaresClone,
+            turn: !this.state.turn,
+          },
+          this.checkWin(squaresClone)
+        );
+      }
     }
   }
+
   renderSquare(i) {
     return (
       <Square
@@ -33,27 +68,28 @@ class Board extends Component {
     );
   }
   renderBoard() {
-    var clonedBoardRows = this.state.boardRows.slice();
-    clonedBoardRows[0] = (
-      <View style={styles.boardRow} key="0">
-        {this.renderSquare(0)} {this.renderSquare(1)} {this.renderSquare(2)}
+    return (
+      <View>
+        <View style={styles.boardRow}>
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </View>
+        <View style={styles.boardRow}>
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </View>
+        <View style={styles.boardRow}>
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </View>
       </View>
     );
-    clonedBoardRows[1] = (
-      <View style={styles.boardRow} key="1">
-        {this.renderSquare(3)} {this.renderSquare(4)} {this.renderSquare(5)}
-      </View>
-    );
-    clonedBoardRows[2] = (
-      <View style={styles.boardRow} key="2">
-        {this.renderSquare(6)} {this.renderSquare(7)} {this.renderSquare(8)}
-      </View>
-    );
-    this.state = { boardRows: clonedBoardRows };
   }
   render() {
-    this.renderBoard();
-    return <View>{this.state.boardRows}</View>;
+    return this.renderBoard();
   }
 }
 const styles = StyleSheet.create({
