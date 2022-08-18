@@ -5,9 +5,17 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      turn: "true",
+      isActive: true,
+      turn: true,
       squares: Array(9).fill(null),
     };
+  }
+  message() {
+    if (this.state.isActive) {
+      return `${this.state.turn == true ? "X" : "O"}'s turn`;
+    } else {
+      return `${this.state.turn == true ? "X" : "O"} won the game`;
+    }
   }
   checkWin(squaresClone) {
     const squares = squaresClone;
@@ -38,12 +46,15 @@ class Board extends Component {
         squares[2] != null)
     ) {
       console.log(this.state.turn ? "X wins" : "O wins");
+      this.setState({ isActive: false });
+      this.props.winner(this.state.turn == true ? "X" : "O");
+    } else {
+      console.log("nobody wins");
+      this.setState({ turn: !this.state.turn });
     }
-
-    console.log("nobody wins");
   }
   handleClick(i) {
-    if (this.state.squares != null) {
+    if (this.state.isActive) {
       if (this.state.squares[i] == null) {
         const squaresClone = this.state.squares.slice();
         if (this.state.turn) squaresClone[i] = "X";
@@ -51,7 +62,6 @@ class Board extends Component {
         this.setState(
           {
             squares: squaresClone,
-            turn: !this.state.turn,
           },
           this.checkWin(squaresClone)
         );
@@ -89,7 +99,12 @@ class Board extends Component {
     );
   }
   render() {
-    return this.renderBoard();
+    return (
+      <View>
+        <Text>{this.message()}</Text>
+        {this.renderBoard()}
+      </View>
+    );
   }
 }
 const styles = StyleSheet.create({
