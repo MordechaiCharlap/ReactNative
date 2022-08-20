@@ -45,12 +45,21 @@ class Board extends Component {
         squares[2] == squares[6] &&
         squares[2] != null)
     ) {
-      console.log(this.state.turn ? "X wins" : "O wins");
       this.setState({ isActive: false });
-      this.props.winner(this.state.turn == true ? "X" : "O");
+      this.props.onWinnerChosen(this.state.turn);
     } else {
       console.log("nobody wins");
-      this.setState({ turn: !this.state.turn });
+      if (squaresClone.every((square) => square != null)) {
+        const squaresClone = squares.slice();
+        squaresClone.forEach((element) => {
+          element = null;
+        });
+        this.setState(
+          { isActive: false, squares: squaresClone },
+          this.props.onTie()
+        );
+        console.log("tie");
+      } else this.setState({ turn: !this.state.turn });
     }
   }
   handleClick(i) {

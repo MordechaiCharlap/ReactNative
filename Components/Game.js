@@ -9,20 +9,25 @@ class Game extends Component {
       winner: null,
     };
   }
-  winner = (winnerLetter = null) => {
-    if (winnerLetter) {
-      this.setState({ winner: winnerLetter });
+  handleWinner = (turn) => {
+    if (turn) {
+      this.setState({ winner: "X" });
     } else {
-      if (this.state.winner != null) return this.state.winner;
+      this.setState({ winner: "O" });
       return null;
     }
+    console.log("winner handled");
+  };
+  handleTie = () => {
+    console.log("test handleTie");
+    this.render();
   };
   render() {
     console.log("game returned");
     return (
       <View>
-        <Message winner={this.winner} />
-        <Board winner={this.winner} />
+        <Message winner={this.state.winner} />
+        <Board onTie={this.handleTie} onWinnerChosen={this.handleWinner} />
       </View>
     );
   }
