@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import Square from "./Square";
 import { View, StyleSheet, Text, Pressable } from "react-native";
-class Board extends Component {
+import StartOverButton from "./StartOverButton";
+import PowerUp from "./PowerUp";
+class Game2Players extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isActive: true,
       turn: true,
+      xPowerUp: this.getPowerUp(),
+      oPowerUp: this.getPowerUp(),
       squares: Array(9).fill(null),
     };
   }
+  getPowerUp = () => {
+    return Math.floor(Math.random() * 5);
+  };
   message() {
     if (this.state.isActive == true) {
       return `${this.state.turn == true ? "X" : "O"}'s turn`;
@@ -48,7 +55,6 @@ class Board extends Component {
         squares[2] != null)
     ) {
       this.setState({ isActive: false });
-      this.props.onWinnerChosen(this.state.turn);
     } else {
       if (squaresClone.every((square) => square != null)) {
         this.setState({ isActive: null });
@@ -102,39 +108,32 @@ class Board extends Component {
       </View>
     );
   }
-  startOverButton() {
-    if (this.state.isActive == null)
-      return (
-        <Pressable
-          style={styles.startOverButton}
-          onPress={() => this.handleStartOver()}
-        >
-          <Text style={styles.startOverText}>Start over!</Text>
-        </Pressable>
-      );
-    else
-      return (
-        <Pressable
-          style={styles.startOverButtonInvisible}
-          onPress={() => this.handleStartOver()}
-        >
-          <Text style={styles.startOverText}>Start over!</Text>
-        </Pressable>
-      );
-  }
+
   handleStartOver() {
     this.setState({
       isActive: true,
       turn: !this.state.turn,
       squares: this.state.squares.fill(null),
+      xPowerUp: this.getPowerUp(),
+      oPowerUp: this.getPowerUp(),
     });
   }
+
   render() {
     return (
       <View style={styles.container}>
         <Text>{this.message()}</Text>
-        {this.renderBoard()}
-        {this.startOverButton()}
+
+        <View style={{ display: "flex", flexDirection: "row" }}>
+          <PowerUp player="X" powerUp={this.state.xPowerUp} />
+          {this.renderBoard()}
+          <PowerUp player="O" powerUp={this.state.oPowerUp} />
+        </View>
+
+        <StartOverButton
+          isActive={this.state.isActive}
+          startOver={() => this.handleStartOver()}
+        />
       </View>
     );
   }
@@ -165,4 +164,4 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
-export default Board;
+export default Game2Players;

@@ -1,7 +1,5 @@
 import { Text } from "react-native";
-import { useState } from "react";
 function Message(props) {
-  //const [winner, setWinner] = useState(props.winner);
   const winMessage = () => {
     if (props.winner != null) {
       console.log("Win message");

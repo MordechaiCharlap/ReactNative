@@ -1,6 +1,6 @@
 import { Pressable, View, Text } from "react-native";
 import React, { Component } from "react";
-import Game from "./Game";
+import Game2Players from "./Game2Players";
 class StartMenu extends Component {
   constructor(props) {
     super(props);
@@ -22,21 +22,21 @@ class StartMenu extends Component {
     if (this.state.chosenOption == null)
       return (
         <View>
-          <Pressable onPress={() => this.StartSinglePlayer()}>
+          {/* <Pressable onPress={() => this.StartSinglePlayer()}>
             <Text>SinglePlayer</Text>
-          </Pressable>
+          </Pressable> */}
           <Pressable onPress={() => this.Start2Players()}>
             <Text>2 players</Text>
           </Pressable>
-          <Pressable onPress={this.StartMultiPlayer}>
+          {/* <Pressable onPress={this.StartMultiPlayer}>
             <Text>Multiplayer</Text>
-          </Pressable>
+          </Pressable> */}
         </View>
       );
     else if (this.state.chosenOption == 2) {
       return (
         <View>
-          <Game />
+          <Game2Players />
         </View>
       );
     }
