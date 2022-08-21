@@ -10,11 +10,14 @@ class StartMenu extends Component {
   }
 
   StartSinglePlayer() {
-    console.log("check");
     this.setState({ chosenOption: 1 });
   }
-  Start2Players() {}
-  StartMultiPlayer() {}
+  Start2Players() {
+    this.setState({ chosenOption: 2 });
+  }
+  StartMultiPlayer() {
+    this.setState({ chosenOption: 3 });
+  }
   render() {
     if (this.state.chosenOption == null)
       return (
@@ -22,7 +25,7 @@ class StartMenu extends Component {
           <Pressable onPress={() => this.StartSinglePlayer()}>
             <Text>SinglePlayer</Text>
           </Pressable>
-          <Pressable onPress={this.Start2Players}>
+          <Pressable onPress={() => this.Start2Players()}>
             <Text>2 players</Text>
           </Pressable>
           <Pressable onPress={this.StartMultiPlayer}>
@@ -30,7 +33,7 @@ class StartMenu extends Component {
           </Pressable>
         </View>
       );
-    else if (this.state.chosenOption == 1) {
+    else if (this.state.chosenOption == 2) {
       return (
         <View>
           <Game />

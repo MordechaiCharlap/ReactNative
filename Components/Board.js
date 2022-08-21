@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Square from "./Square";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 class Board extends Component {
   constructor(props) {
     super(props);
@@ -11,10 +11,12 @@ class Board extends Component {
     };
   }
   message() {
-    if (this.state.isActive) {
+    if (this.state.isActive == true) {
       return `${this.state.turn == true ? "X" : "O"}'s turn`;
-    } else {
+    } else if (this.state.isActive == false) {
       return `${this.state.turn == true ? "X" : "O"} won the game`;
+    } else if (this.state.isActive == null) {
+      return "It's a tie!";
     }
   }
   checkWin(squaresClone) {
@@ -48,18 +50,11 @@ class Board extends Component {
       this.setState({ isActive: false });
       this.props.onWinnerChosen(this.state.turn);
     } else {
-      console.log("nobody wins");
       if (squaresClone.every((square) => square != null)) {
-        const squaresClone = squares.slice();
-        squaresClone.forEach((element) => {
-          element = null;
-        });
-        this.setState(
-          { isActive: false, squares: squaresClone },
-          this.props.onTie()
-        );
-        console.log("tie");
-      } else this.setState({ turn: !this.state.turn });
+        this.setState({ isActive: null });
+      } else {
+        this.setState({ turn: !this.state.turn });
+      }
     }
   }
   handleClick(i) {
@@ -107,11 +102,39 @@ class Board extends Component {
       </View>
     );
   }
+  startOverButton() {
+    if (this.state.isActive == null)
+      return (
+        <Pressable
+          style={styles.startOverButton}
+          onPress={() => this.handleStartOver()}
+        >
+          <Text style={styles.startOverText}>Start over!</Text>
+        </Pressable>
+      );
+    else
+      return (
+        <Pressable
+          style={styles.startOverButtonInvisible}
+          onPress={() => this.handleStartOver()}
+        >
+          <Text style={styles.startOverText}>Start over!</Text>
+        </Pressable>
+      );
+  }
+  handleStartOver() {
+    this.setState({
+      isActive: true,
+      turn: !this.state.turn,
+      squares: this.state.squares.fill(null),
+    });
+  }
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text>{this.message()}</Text>
         {this.renderBoard()}
+        {this.startOverButton()}
       </View>
     );
   }
@@ -120,6 +143,26 @@ const styles = StyleSheet.create({
   boardRow: {
     flex: 1,
     flexDirection: "row",
+  },
+  container: {
+    display: "flex",
+    alignItems: "center",
+  },
+  startOverButton: {
+    margin: 10,
+    backgroundColor: "#1e3755",
+    borderWidth: 1,
+    borderColor: "black",
+  },
+  startOverButtonInvisible: {
+    visibility: "hidden",
+    margin: 10,
+    backgroundColor: "#1e3755",
+    borderWidth: 1,
+    borderColor: "black",
+  },
+  startOverText: {
+    color: "white",
   },
 });
 export default Board;

@@ -26,7 +26,7 @@ class Game extends Component {
     console.log("game returned");
     return (
       <View>
-        <Message winner={this.state.winner} />
+        {/* <Message winner={this.state.winner} /> */}
         <Board onTie={this.handleTie} onWinnerChosen={this.handleWinner} />
       </View>
     );
